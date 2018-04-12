@@ -15,7 +15,7 @@ import platform
 
 root_dir = os.path.split(os.path.dirname(os.path.realpath(__file__)))[0]
 flip_dir = os.path.join(root_dir, "ThirdParty", "flip")
-flip_commit = "a92f669a65"
+flip_commit = "c47e41da05"
 flip_url = "http://developer.irisate.com.s3-website-us-east-1.amazonaws.com/files/"
 
 #==============================================================================
