@@ -36,7 +36,6 @@ matrix:
       # make sure CXX is correctly set
       - if [[ "${COMPILER}" != "" ]]; then export CXX=${COMPILER}; fi
       - git submodule update --init --recursive ThirdParty/Juce ThirdParty/concurrentqueue ThirdParty/Beast
-      - git submodule update --init --recursive --depth=1 ThirdParty/boost
       - pip install --user cpp-coveralls
 
     script:
@@ -94,7 +93,6 @@ matrix:
 
     install:
       - git submodule update --init --recursive ThirdParty/Juce ThirdParty/concurrentqueue ThirdParty/Beast
-      - git submodule update --init --recursive --depth=1 ThirdParty/boost
 
     script:
     - python ./Scripts/configure.py -c Release

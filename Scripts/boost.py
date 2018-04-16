@@ -7,47 +7,42 @@ import sys
 import argparse
 import subprocess
 import platform
+import urllib
+import tarfile
+import shutil
 
 
 root_dir = os.path.split(os.path.dirname(os.path.realpath(__file__)))[0]
-flip_dir = os.path.join(root_dir, "ThirdParty", "flip")
-flip_commit = "c47e41da05"
-flip_url = "http://developer.irisate.com.s3-website-us-east-1.amazonaws.com/files/"
-
-#==============================================================================
-# Name : get_private_commit
-#==============================================================================
-
-def get_private_commit():
-    commit  = subprocess.check_output(["git", "submodule", "status", "flip"])
-    return commit[1:11]
+boost_dir = os.path.join(root_dir, "ThirdParty", "boost")
+boost_version = "1.63.0"
+boost_url = "https://sourceforge.net/projects/boost/files/boost/"
 
 #==============================================================================
 # Name : get_public_commit
 #==============================================================================
 
-def read_commit():
+def read_version():
 
-    commit = ""
+    version = ""
 
-    config_file = os.path.join(flip_dir, "config")
+    config_file = os.path.join(boost_dir, "config")
 
     if  os.path.exists(config_file):
         fo = open(config_file, "r")
-        commit = fo.readline()
+        version = fo.readline()
         fo.close()
 
-    return commit[0:10]
+    return version[0:10]
 
 #==============================================================================
 # Name : set_public_commit
 #==============================================================================
 
-def write_commit(commit):
+def write_version(version):
 
-    config_file = os.path.join(flip_dir, "config")
+    config_file = os.path.join(boost_dir, "config")
     fo = open(config_file, "w")
-    fo.write(commit)
+    fo.write(version)
     fo.close()
 
 
@@ -59,31 +54,19 @@ def init_boost_macos():
 
     subprocess.check_call("./bootstrap.sh toolset=clang macosx-version-min=10.8 architecture=combined link=static", shell= True)
 
-    subprocess.check_call("./b2 headers", shell= True)
-
     subprocess.check_call("./b2 address-model=32_64 --with-system stage", shell= True)
 
 #==============================================================================
 # Name : download_flip_windows
 #==============================================================================
 
-def download_flip_windows(commit):
+def init_boost_windows(commit):
 
-    archive_file = "flip-demo-windows-" + commit + ".zip"
+    subprocess.check_call("./bootstrap.sh", shell= True)
 
-    # download archive
-    print "-- downloading flip archive"
-    urllib.urlretrieve (flip_url + archive_file, os.path.join(root_dir, "ThirdParty", archive_file))
+    subprocess.check_call("./b2 --toolset=msvc-14.0 -j4 --with-system --stagedir=stage64 variant=release architecture=x86 address-model=64 link=static", shell= True)
 
-    # extract archive
-    print "-- extracting archive"
-
-    os.mkdir(flip_dir)
-    archive = zipfile.ZipFile(os.path.join(root_dir, "ThirdParty", archive_file), 'r')
-    archive.extractall(flip_dir)
-    archive.close()
-
-    os.remove(os.path.join(root_dir, "ThirdParty", archive_file))
+    subprocess.check_cal("./b2 --toolset=msvc-14.0 -j4 --with-system --stagedir=stage32 variant=release architecture=x86 address-model=32 link=static", shell= True)
 
 #==============================================================================
 # Name : download_flip_linux
@@ -92,8 +75,6 @@ def download_flip_windows(commit):
 def init_boost_linux():
 
     subprocess.check_call("./bootstrap.sh toolset=gcc link=static", shell= True);
-
-    subprocess.check_call("./b2 headers", shell= True);
 
     subprocess.check_call("./b2 --with-system stage", shell= True);
 
@@ -115,11 +96,49 @@ def init_boost():
     os.chdir(root_dir);
 
 #==============================================================================
+# Name : download_boost
+#==============================================================================
+
+def download_boost():
+
+    boost_archive_file = "boost_" + boost_version.replace(".", "_") + ".tar.gz"
+
+    # download archive
+    print "-- downloading archive"
+    urllib.urlretrieve (boost_url + boost_version + "/" + boost_archive_file, os.path.join(root_dir, "ThirdParty", boost_archive_file))
+
+    print "-- extracting archive"
+
+    archive = tarfile.open(os.path.join(root_dir, "ThirdParty", boost_archive_file), "r:gz")
+    archive.extractall(os.path.join(root_dir, "ThirdParty"))
+    archive.close()
+
+    os.rename(os.path.join(root_dir, "ThirdParty", "boost_" + boost_version.replace(".", "_")), boost_dir)
+
+    # remove archive
+    os.remove(os.path.join(root_dir, "ThirdParty", boost_archive_file))
+
+#==============================================================================
 # Name : main
 #==============================================================================
 
-print "-- Initializing boost"
+current_version = read_version()
 
-init_boost();
+if current_version != boost_version:
 
-print "-- Boost initialized"
+    print "-- boost is not up-to-date :"
+
+    if os.path.exists(boost_dir):
+        shutil.rmtree(boost_dir)
+
+    download_boost()
+
+    init_boost()
+
+    write_version(boost_version)
+
+    print "-- boost successfully updated"
+
+else:
+
+    print "-- boost already up to date"
