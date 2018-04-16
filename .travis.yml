@@ -35,17 +35,8 @@ matrix:
     install:
       # make sure CXX is correctly set
       - if [[ "${COMPILER}" != "" ]]; then export CXX=${COMPILER}; fi
-      - git submodule update --init --recursive ThirdParty/Juce ThirdParty/concurrentqueue ThirdParty/Beast
+      - git submodule update --init --recursive --depth 1 ThirdParty/Juce ThirdParty/concurrentqueue ThirdParty/Beast ThirdParty/boost
       - pip install --user cpp-coveralls
-      - cd ${HOME}
-      - wget --no-check-certificate -O ./boost_1_63_0.tar.gz https://sourceforge.net/projects/boost/files/boost/1.63.0/boost_1_63_0.tar.gz
-      - tar xvzf ./boost_1_63_0.tar.gz &> /dev/null
-      - cd ./boost_1_63_0
-      - ./bootstrap.sh toolset=gcc link=static
-      - ./b2 --with-system stage
-      - export KIWI_BOOST_INCLUDE=${HOME}/boost_1_63_0
-      - export KIWI_BOOST_LIB=${HOME}/boost_1_63_0/stage/lib
-      - cd ${TRAVIS_BUILD_DIR}
 
     script:
       - python ./Scripts/configure.py -coverage
@@ -101,16 +92,7 @@ matrix:
     osx_image: xcode9.2
 
     install:
-      - git submodule update --init --recursive ThirdParty/Juce ThirdParty/concurrentqueue ThirdParty/Beast
-      - cd ${HOME}
-      - curl -o ./boost_1_63_0.tar.gz -L https://sourceforge.net/projects/boost/files/boost/1.63.0/boost_1_63_0.tar.gz
-      - tar xvzf ./boost_1_63_0.tar.gz &> /dev/null
-      - cd ./boost_1_63_0
-      - ./bootstrap.sh toolset=clang macosx-version-min=10.8 architecture=combined link=static
-      - ./b2 address-model=32_64 --with-system stage
-      - export KIWI_BOOST_INCLUDE=${HOME}/boost_1_63_0
-      - export KIWI_BOOST_LIB=${HOME}/boost_1_63_0/stage/lib
-      - cd ${TRAVIS_BUILD_DIR}
+      - git submodule update --init --recursive --depth ThirdParty/Juce ThirdParty/concurrentqueue ThirdParty/Beast ThirdParty/boost
 
     script:
     - python ./Scripts/configure.py -c Release
