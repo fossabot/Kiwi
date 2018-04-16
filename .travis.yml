@@ -37,6 +37,7 @@ matrix:
       - if [[ "${COMPILER}" != "" ]]; then export CXX=${COMPILER}; fi
       - git submodule update --init --recursive ThirdParty/Juce ThirdParty/concurrentqueue ThirdParty/Beast
       - pip install --user cpp-coveralls
+      - pip install requests
 
     script:
       - python ./Scripts/configure.py -coverage
@@ -92,6 +93,7 @@ matrix:
     osx_image: xcode9.2
 
     install:
+      - pip install requests
       - git submodule update --init --recursive ThirdParty/Juce ThirdParty/concurrentqueue ThirdParty/Beast
 
     script:

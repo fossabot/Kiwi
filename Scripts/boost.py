@@ -9,6 +9,7 @@ import subprocess
 import platform
 import urllib2
 import ssl
+import requests
 import zipfile
 import tarfile
 import shutil
@@ -107,12 +108,10 @@ def download_boost_unix():
 
     # download archive
     print "-- downloading archive"
-    ctx = ssl.create_default_context()
-    ctx.check_hostname = False
-    ctx.verify_mode = ssl.CERT_NONE
 
     f = open(os.path.join(root_dir, "ThirdParty", boost_archive_file), 'wb')
-    f.write(urllib2.urlopen(boost_url + boost_version + "/" + boost_archive_file, context=ctx).read())
+    resp = requests.get(boost_url + boost_version + "/" + boost_archive_file, verify=False)
+    f.write(resp.content)
     f.close()
 
 
@@ -152,8 +151,6 @@ def download_boost_windows():
     archive = zipfile.ZipFile(os.path.join(root_dir, "ThirdParty", boost_archive_file), "r")
     archive.extractall(boost_dir)
     archive.close()
-
-    os.rename(os.path.join(root_dir, "ThirdParty", "boost_" + boost_version.replace(".", "_")), boost_dir)
 
     # remove archive
     os.remove(os.path.join(root_dir, "ThirdParty", boost_archive_file))
