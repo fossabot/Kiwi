@@ -108,7 +108,7 @@ def download_boost_unix():
     # download archive
     print "-- downloading archive"
     ctx = ssl.create_default_context()
-    ctx.check_hostname = False
+    ctx.check_hostname = True
     ctx.verify_mode = ssl.CERT_NONE
 
     f = open(os.path.join(root_dir, "ThirdParty", boost_archive_file), 'wb')
@@ -138,7 +138,7 @@ def download_boost_windows():
     # download archive
     print "-- downloading archive"
     ctx = ssl.create_default_context()
-    ctx.check_hostname = False
+    ctx.check_hostname = True
     ctx.verify_mode = ssl.CERT_NONE
 
     f = open(os.path.join(root_dir, "ThirdParty", boost_archive_file), 'wb')
