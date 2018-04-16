@@ -8,6 +8,8 @@ import argparse
 import subprocess
 import platform
 import urllib
+import ssl
+import zipfile
 import tarfile
 import shutil
 
@@ -96,16 +98,23 @@ def init_boost():
     os.chdir(root_dir);
 
 #==============================================================================
-# Name : download_boost
+# Name : download_boost_unix
 #==============================================================================
 
-def download_boost():
+def download_boost_unix():
 
     boost_archive_file = "boost_" + boost_version.replace(".", "_") + ".tar.gz"
 
     # download archive
     print "-- downloading archive"
-    urllib.urlretrieve (boost_url + boost_version + "/" + boost_archive_file, os.path.join(root_dir, "ThirdParty", boost_archive_file))
+    ctx = ssl.create_default_context()
+    ctx.check_hostname = False
+    ctx.verify_mode = ssl.CERT_NONE
+
+    f = open(os.path.join(root_dir, "ThirdParty", boost_archive_file), 'wb')
+    f.write(urllib.urlopen(boost_url + boost_version + "/" + boost_archive_file, context=ctx).read())
+    f.close()
+
 
     print "-- extracting archive"
 
@@ -117,6 +126,50 @@ def download_boost():
 
     # remove archive
     os.remove(os.path.join(root_dir, "ThirdParty", boost_archive_file))
+
+#==============================================================================
+# Name : download_boost_windows
+#==============================================================================
+
+def download_boost_windows():
+
+    boost_archive_file = "boost_" + boost_version.replace(".", "_") + ".zip"
+
+    # download archive
+    print "-- downloading archive"
+    ctx = ssl.create_default_context()
+    ctx.check_hostname = False
+    ctx.verify_mode = ssl.CERT_NONE
+
+    f = open(os.path.join(root_dir, "ThirdParty", boost_archive_file), 'wb')
+    f.write(urllib.urlopen(boost_url + boost_version + "/" + boost_archive_file, context=ctx).read())
+    f.close()
+
+
+    print "-- extracting archive"
+
+    os.mkdir(boost_dir)
+    archive = ZipFile.open(os.path.join(root_dir, "ThirdParty", boost_archive_file), "r")
+    archive.extractall(boost_dir)
+    archive.close()
+
+    os.rename(os.path.join(root_dir, "ThirdParty", "boost_" + boost_version.replace(".", "_")), boost_dir)
+
+    # remove archive
+    os.remove(os.path.join(root_dir, "ThirdParty", boost_archive_file))
+
+#==============================================================================
+# Name : download_boost
+#==============================================================================
+
+def download_boost():
+
+    if (platform.system() == "Darwin"):
+        download_boost_unix()
+    elif (platform.system() == "Windows"):
+    	download_boost_windows()
+    elif platform.system() == "Linux":
+    	download_boost_unix()
 
 #==============================================================================
 # Name : main
