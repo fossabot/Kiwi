@@ -89,7 +89,7 @@ def download_flip_windows(commit):
 # Name : download_flip_linux
 #==============================================================================
 
-def init_boost_linux(commit):
+def init_boost_linux():
 
     subprocess.check_call("./bootstrap.sh toolset=gcc link=static", shell= True);
 
