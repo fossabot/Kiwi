@@ -35,7 +35,8 @@ matrix:
     install:
       # make sure CXX is correctly set
       - if [[ "${COMPILER}" != "" ]]; then export CXX=${COMPILER}; fi
-      - git submodule update --init --recursive --depth 1 ThirdParty/Juce ThirdParty/concurrentqueue ThirdParty/Beast ThirdParty/boost
+      - git submodule update --init --recursive ThirdParty/Juce ThirdParty/concurrentqueue ThirdParty/Beast
+      - git submodule update --init --recursive --depth=1 ThirdParty/boost
       - pip install --user cpp-coveralls
 
     script:
@@ -92,7 +93,8 @@ matrix:
     osx_image: xcode9.2
 
     install:
-      - git submodule update --init --recursive --depth ThirdParty/Juce ThirdParty/concurrentqueue ThirdParty/Beast ThirdParty/boost
+      - git submodule update --init --recursive ThirdParty/Juce ThirdParty/concurrentqueue ThirdParty/Beast
+      - git submodule update --init --recursive --depth=1 ThirdParty/boost
 
     script:
     - python ./Scripts/configure.py -c Release
