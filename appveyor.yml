@@ -7,19 +7,16 @@ environment:
         MSBUILD: 14.0
         CONFIGURATION: Release
         PLATFORM: Win32
-        PYTHON: "C:\Python33"
       - MSVS: 2015
         MSBUILD: 14.0
         CONFIGURATION: Release
         PLATFORM: x64
-        PYTHON: "C:\Python33"
 
 install:
-    - python --version
     - git submodule update --init --recursive "ThirdParty/Juce"
     - git submodule update --init --recursive "ThirdParty/concurrentqueue"
     - git submodule update --init --recursive "ThirdParty/Beast"
-    - set PATH=C:\Python27;%PATH%
+    - set PATH=C:\Python33;%PATH%
     - cd %APPVEYOR_BUILD_FOLDER%
     - if "%APPVEYOR_REPO_BRANCH%"=="master" (set KIWI_DEPLOY=release) else (set KIWI_DEPLOY=draft)
 

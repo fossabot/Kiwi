@@ -26,7 +26,6 @@ matrix:
     - sudo apt-get install libasound2-dev
     - sudo apt-get install libgtk-3-dev
     - sudo apt-get install libwebkit2gtk-4.0-dev
-    - sudo apt-get install python3
 
     addons:
       apt:
@@ -35,17 +34,14 @@ matrix:
 
     install:
       # make sure CXX is correctly set
-      - openssl version
-      - python --version
-      - python -c 'import ssl; print ssl.OPENSSL_VERSION;'
       - if [[ "${COMPILER}" != "" ]]; then export CXX=${COMPILER}; fi
       - git submodule update --init --recursive ThirdParty/Juce ThirdParty/concurrentqueue ThirdParty/Beast
       - pip install --user cpp-coveralls
 
     script:
-      - python ./Scripts/configure.py -coverage
-      - python ./Scripts/build.py -c Release
-      - python ./Scripts/build.py -c Debug -t Tests
+      - python3 ./Scripts/configure.py -coverage
+      - python3 ./Scripts/build.py -c Release
+      - python3 ./Scripts/build.py -c Debug -t Tests
 
     after_success:
       - coveralls -i Modules --gcov-options '\-lp' > /dev/null
@@ -96,17 +92,11 @@ matrix:
     osx_image: xcode9.2
 
     install:
-      - brew upgrade python
-      - openssl version
-      - python --version
-      - python -c 'import ssl; print ssl.OPENSSL_VERSION;'
-      - brew install openssl
-      - brew install python --with-brewed-openssl
       - git submodule update --init --recursive ThirdParty/Juce ThirdParty/concurrentqueue ThirdParty/Beast
 
     script:
-    - python ./Scripts/configure.py -c Release
-    - python ./Scripts/build.py -c Release
+    - python3 ./Scripts/configure.py -c Release
+    - python3 ./Scripts/build.py -c Release
 
     before_deploy:
     - mkdir Kiwi
