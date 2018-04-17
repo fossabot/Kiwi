@@ -62,7 +62,7 @@ def init_boost_macos():
 # Name : download_flip_windows
 #==============================================================================
 
-def init_boost_windows(commit):
+def init_boost_windows():
 
     subprocess.check_call("./bootstrap.sh", shell= True)
 

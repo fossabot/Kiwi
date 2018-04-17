@@ -34,6 +34,9 @@ matrix:
 
     install:
       # make sure CXX is correctly set
+      - openssl version
+      - python --version
+      - python -c 'import ssl; print ssl.OPENSSL_VERSION;'
       - if [[ "${COMPILER}" != "" ]]; then export CXX=${COMPILER}; fi
       - git submodule update --init --recursive ThirdParty/Juce ThirdParty/concurrentqueue ThirdParty/Beast
       - pip install --user cpp-coveralls
@@ -92,6 +95,9 @@ matrix:
     osx_image: xcode9.2
 
     install:
+      - openssl version
+      - python --version
+      - python -c 'import ssl; print ssl.OPENSSL_VERSION;'
       - brew update
       - brew install openssl
       - brew install python --with-brewed-openssl
