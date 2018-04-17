@@ -101,8 +101,9 @@ matrix:
      - python --version
      - brew update
      - brew unlink openssl
-     - export PATH=/usr/local/bin:$PATH
+     - export PATH=$(brew --prefix openssl)/bin:$PATH
      - brew link --force openssl
+     - export PATH=$(brew --prefix openssl)/bin:$PATH
      - brew rm python
      - brew install python --with-brewed-openssl
      - openssl version
