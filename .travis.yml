@@ -100,7 +100,9 @@ matrix:
      - python -c 'import ssl; print ssl.OPENSSL_VERSION;'
      - python --version
      - brew update
-     - brew install openssl
+     - brew unlink openssl
+     - export PATH=/usr/local/bin:$PATH
+     - brew link --force openssl
      - brew rm python
      - brew install python --with-brewed-openssl
      - openssl version

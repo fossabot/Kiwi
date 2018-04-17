@@ -111,7 +111,7 @@ def download_boost_unix():
     endpoint = boost_url + boost_version + "/" + boost_archive_file
 
     f = open(os.path.join(root_dir, "ThirdParty", boost_archive_file), 'wb')
-    f.write(urllib2.urlopen(endpoint, context=ctx).read())
+    f.write(urllib2.urlopen(endpoint).read())
     f.close()
 
     print "-- extracting archive"
@@ -139,7 +139,7 @@ def download_boost_windows():
     endpoint = boost_url + boost_version + "/" + boost_archive_file
 
     f = open(os.path.join(root_dir, "ThirdParty", boost_archive_file), 'wb')
-    f.write(urllib2.urlopen(endpoint, context=ctx).read())
+    f.write(urllib2.urlopen(endpoint).read())
     f.close()
 
     print "-- extracting archive"
