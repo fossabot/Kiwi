@@ -13,9 +13,11 @@ matrix:
   - os: linux
     compiler: gcc
     env: COMPILER=g++-4.9
-    python: 3.3
 
     before_install:
+    - openssl version
+    - python --version
+    - python -c 'import ssl; print ssl.OPENSSL_VERSION;'
     - sudo add-apt-repository ppa:webkit-team/ppa -y
     - sudo apt-get update
     - sudo apt-get install libfreetype6-dev
@@ -27,12 +29,12 @@ matrix:
     - sudo apt-get install libasound2-dev
     - sudo apt-get install libgtk-3-dev
     - sudo apt-get install libwebkit2gtk-4.0-dev
-    - python --version
+
 
     addons:
       apt:
         sources: ['ubuntu-toolchain-r-test']
-        packages: [g++-4.9, 'python-pip', 'python-yaml', "libssl1.0.0"]
+        packages: [g++-4.9, 'python-pip', 'python-yaml', 'libssl1.0.0']
 
     install:
       # make sure CXX is correctly set
@@ -41,9 +43,9 @@ matrix:
       - pip install --user cpp-coveralls
 
     script:
-      - python3 ./Scripts/configure.py -coverage
-      - python3 ./Scripts/build.py -c Release
-      - python3 ./Scripts/build.py -c Debug -t Tests
+      - python ./Scripts/configure.py -coverage
+      - python ./Scripts/build.py -c Release
+      - python ./Scripts/build.py -c Debug -t Tests
 
     after_success:
       - coveralls -i Modules --gcov-options '\-lp' > /dev/null
@@ -92,10 +94,18 @@ matrix:
     compiler: clang++
     env: COMPILER=clang++
     osx_image: xcode9.2
-    python: 3.3
 
     before_install:
-      - python --version
+     - openssl version
+     - python -c 'import ssl; print ssl.OPENSSL_VERSION;'
+     - python --version
+     - brew update
+     - brew install openssl
+     - brew rm python
+     - brew install python --with-brewed-openssl
+     - openssl version
+     - python -c 'import ssl; print ssl.OPENSSL_VERSION;'
+     - python --version
 
     install:
       - git submodule update --init --recursive ThirdParty/Juce ThirdParty/concurrentqueue ThirdParty/Beast

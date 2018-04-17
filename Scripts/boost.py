@@ -110,8 +110,6 @@ def download_boost_unix():
 
     endpoint = boost_url + boost_version + "/" + boost_archive_file
 
-    ctx = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
-
     f = open(os.path.join(root_dir, "ThirdParty", boost_archive_file), 'wb')
     f.write(urllib2.urlopen(endpoint, context=ctx).read())
     f.close()
@@ -139,8 +137,6 @@ def download_boost_windows():
     print "-- downloading archive"
 
     endpoint = boost_url + boost_version + "/" + boost_archive_file
-
-    ctx = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
 
     f = open(os.path.join(root_dir, "ThirdParty", boost_archive_file), 'wb')
     f.write(urllib2.urlopen(endpoint, context=ctx).read())
