@@ -12,7 +12,7 @@ environment:
         MSBUILD: 14.0
         CONFIGURATION: Release
         PLATFORM: x64
-        PYTHON: PYTHON: "C:\Python33"
+        PYTHON: "C:\Python33"
 
 install:
     - python --version
