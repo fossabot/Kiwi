@@ -106,6 +106,7 @@ matrix:
      - export PATH=$(brew --prefix openssl)/bin:$PATH
      - brew rm python
      - brew install python --with-brewed-openssl
+     - export PATH=/usr/local/Cellar/python/3.6.5/bin:$PATH
      - openssl version
      - python -c 'import ssl; print ssl.OPENSSL_VERSION;'
      - python --version
@@ -114,8 +115,8 @@ matrix:
       - git submodule update --init --recursive ThirdParty/Juce ThirdParty/concurrentqueue ThirdParty/Beast
 
     script:
-    - python ./Scripts/configure.py -c Release
-    - python ./Scripts/build.py -c Release
+    - python3 ./Scripts/configure.py -c Release
+    - python3 ./Scripts/build.py -c Release
 
     before_deploy:
     - mkdir Kiwi
