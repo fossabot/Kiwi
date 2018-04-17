@@ -7,7 +7,8 @@ import sys
 import argparse
 import subprocess
 import platform
-import urllib
+import urllib3
+import ssl
 import zipfile
 import tarfile
 import shutil
@@ -109,7 +110,12 @@ def download_boost_unix():
 
     endpoint = boost_url + boost_version + "/" + boost_archive_file
 
-    urllib.urlretrieve (endpoint, os.path.join(root_dir, "ThirdParty", boost_archive_file))
+    pm = urllib3.PoolManager(ssl_version=ssl.PROTOCOL_TLSv1_2)
+    resp = pm.request('GET', endpoint)
+
+    f = open(os.path.join(root_dir, "ThirdParty", boost_archive_file), 'wb')
+    f.write(resp.data)
+    f.close()
 
     print "-- extracting archive"
 
@@ -135,7 +141,12 @@ def download_boost_windows():
 
     endpoint = boost_url + boost_version + "/" + boost_archive_file
 
-    urllib.urlretrieve (endpoint, os.path.join(root_dir, "ThirdParty", boost_archive_file))
+    pm = urllib3.PoolManager(ssl_version=ssl.PROTOCOL_TLSv1_2)
+    resp = pm.request('GET', endpoint)
+
+    f = open(os.path.join(root_dir, "ThirdParty", boost_archive_file), 'wb')
+    f.write(resp.data)
+    f.close()
 
     print "-- extracting archive"
 
