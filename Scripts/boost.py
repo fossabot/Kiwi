@@ -8,7 +8,6 @@ import argparse
 import subprocess
 import platform
 import urllib
-import requests
 import zipfile
 import tarfile
 import shutil
