@@ -32,7 +32,7 @@ matrix:
     addons:
       apt:
         sources: ['ubuntu-toolchain-r-test']
-        packages: [g++-4.9, 'python-pip', 'python-yaml']
+        packages: [g++-4.9, 'python-pip', 'python-yaml', "libssl1.0.0"]
 
     install:
       # make sure CXX is correctly set
