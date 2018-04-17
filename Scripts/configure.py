@@ -11,7 +11,7 @@ import argparse
 
 ##### VERSION #################################################################
 
-if sys.version_info[0] != 2 or sys.version_info[1] < 7:
+if sys.version_info[0] < 2 or sys.version_info[1] < 7:
     print("This script requires version python 2, 2.7 or higher")
     sys.exit(1)
 

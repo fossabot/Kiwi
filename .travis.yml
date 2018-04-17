@@ -91,6 +91,9 @@ matrix:
     env: COMPILER=clang++
     osx_image: xcode9.2
 
+    before_install:
+      - brew link python
+
     install:
       - git submodule update --init --recursive ThirdParty/Juce ThirdParty/concurrentqueue ThirdParty/Beast
 
