@@ -7,12 +7,15 @@ environment:
         MSBUILD: 14.0
         CONFIGURATION: Release
         PLATFORM: Win32
+        PYTHON: "C:\Python33"
       - MSVS: 2015
         MSBUILD: 14.0
         CONFIGURATION: Release
         PLATFORM: x64
+        PYTHON: PYTHON: "C:\Python33"
 
 install:
+    - python --version
     - git submodule update --init --recursive "ThirdParty/Juce"
     - git submodule update --init --recursive "ThirdParty/concurrentqueue"
     - git submodule update --init --recursive "ThirdParty/Beast"
