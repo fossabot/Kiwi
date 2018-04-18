@@ -64,11 +64,15 @@ def init_boost_macos():
 
 def init_boost_windows():
 
-    subprocess.check_call("./bootstrap.bat", shell= True)
+    print os.listdir(os.getcwd())
 
-    subprocess.check_call("./b2 --toolset=msvc-14.0 -j4 --with-system --stagedir=stage64 variant=release architecture=x86 address-model=64 link=static", shell= True)
+    subprocess.check_call("bootstrap.bat", shell= True)
 
-    subprocess.check_cal("./b2 --toolset=msvc-14.0 -j4 --with-system --stagedir=stage32 variant=release architecture=x86 address-model=32 link=static", shell= True)
+    print os.listdir(os.getcwd())
+
+    subprocess.check_call("b2 --toolset=msvc-14.0 -j4 --with-system --stagedir=stage64 variant=release architecture=x86 address-model=64 link=static", shell= True)
+
+    subprocess.check_cal("b2 --toolset=msvc-14.0 -j4 --with-system --stagedir=stage32 variant=release architecture=x86 address-model=32 link=static", shell= True)
 
 #==============================================================================
 # Name : download_flip_linux
