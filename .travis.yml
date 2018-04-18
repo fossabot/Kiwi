@@ -99,8 +99,6 @@ matrix:
      - openssl version
      - python -c 'import ssl; print ssl.OPENSSL_VERSION;'
      - python --version
-     - brew update
-     - brew install pyenv
      - pyenv install 2.7.11
      - pyenv global 2.7.11
      - python --version
