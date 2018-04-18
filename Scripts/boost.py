@@ -8,6 +8,7 @@ import argparse
 import subprocess
 import platform
 import urllib2
+import urllib
 import ssl
 import zipfile
 import tarfile
@@ -139,7 +140,7 @@ def download_boost_windows():
     endpoint = boost_url + boost_version + "/" + boost_archive_file
 
     f = open(os.path.join(root_dir, "ThirdParty", boost_archive_file), 'wb')
-    f.write(urllib2.urlopen(endpoint).read())
+    f.write(urllib.urlopen(endpoint).read())
     f.close()
 
     print "-- extracting archive"

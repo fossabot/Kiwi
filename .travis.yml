@@ -101,6 +101,7 @@ matrix:
      - python --version
      - pyenv install 2.7.11
      - pyenv global 2.7.11
+     - eval "$(pyenv init -)"
      - python --version
      - python -c 'import ssl; print ssl.OPENSSL_VERSION;'
 
