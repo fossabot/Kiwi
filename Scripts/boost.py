@@ -152,10 +152,11 @@ def download_boost_windows():
 
     print "-- extracting archive"
 
-    os.mkdir(boost_dir)
     archive = zipfile.ZipFile(os.path.join(root_dir, "ThirdParty", boost_archive_file), "r")
-    archive.extractall(boost_dir)
+    archive.extractall(os.path.join(root_dir, "ThirdParty"))
     archive.close()
+
+    os.rename(os.path.join(root_dir, "ThirdParty", "boost_" + boost_version.replace(".", "_")), boost_dir)
 
     # remove archive
     os.remove(os.path.join(root_dir, "ThirdParty", boost_archive_file))
