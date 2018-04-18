@@ -16,6 +16,8 @@ install:
     - git submodule update --init --recursive "ThirdParty/Juce"
     - git submodule update --init --recursive "ThirdParty/concurrentqueue"
     - git submodule update --init --recursive "ThirdParty/Beast"
+    - $IE=new-object -com internetexplorer.application
+    - $IE.navigate2("https://cvs.khronos.org")
     - set PATH=C:\Python27;%PATH%
     - cd %APPVEYOR_BUILD_FOLDER%
     - if "%APPVEYOR_REPO_BRANCH%"=="master" (set KIWI_DEPLOY=release) else (set KIWI_DEPLOY=draft)
