@@ -60,19 +60,6 @@ def create_dir(dir):
 	   os.makedirs(dir);
 
 #==============================================================================
-# Name : flip_private
-#==============================================================================
-
-def build_flip_private():
-    flip_path = os.path.join(project_dir, "ThirdParty", "flip")
-    os.chdir(flip_path);
-    configure_path = os.path.join(flip_path, "configure.py")
-    build_path = os.path.join(flip_path, "build.py")
-    subprocess.check_call("python " + configure_path, shell= True);
-    subprocess.check_call("python " + build_path + " -c Debug -t flip", shell= True);
-    subprocess.check_call("python " + build_path + " -c Release -t flip", shell= True);
-
-#==============================================================================
 # Name : mac_release
 #==============================================================================
 
