@@ -13,6 +13,11 @@ import zipfile
 import tarfile
 import shutil
 
+##### VERSION #################################################################
+
+if sys.version_info[0] != 2 or sys.version_info[1] < 7:
+    print("This script requires version python 2, 2.7 or higher")
+    sys.exit(1)
 
 root_dir = os.path.split(os.path.dirname(os.path.realpath(__file__)))[0]
 boost_dir = os.path.join(root_dir, "ThirdParty", "boost")

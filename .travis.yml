@@ -15,7 +15,6 @@ matrix:
     env: COMPILER=g++-4.9
 
     before_install:
-    - openssl version
     - python --version
     - python -c 'import ssl; print ssl.OPENSSL_VERSION;'
     - sudo add-apt-repository ppa:webkit-team/ppa -y
@@ -96,9 +95,6 @@ matrix:
     osx_image: xcode9.2
 
     before_install:
-     - openssl version
-     - python -c 'import ssl; print ssl.OPENSSL_VERSION;'
-     - python --version
      - pyenv install 2.7.11
      - pyenv global 2.7.11
      - eval "$(pyenv init -)"
